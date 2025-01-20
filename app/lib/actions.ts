@@ -27,9 +27,14 @@ export async function createInvoice(formData: FormData) {
   const amountInCents = (amount as any) * 100;
   const date = new Date().toISOString().split('T')[0];
 
+  const formattedCustomerId = String(customerId);
+  const formattedAmount = Number(amountInCents);
+  const formattedStatus = String(status);
+  const formattedDate = String(date);
+
   await sql`
     INSERT INTO invoices (customer_id, amount, status, date)
-    VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
+    VALUES (${formattedCustomerId}, ${formattedAmount}, ${formattedStatus}, ${formattedDate})
   `;
 
   revalidatePath('/dashboard/invoices');
